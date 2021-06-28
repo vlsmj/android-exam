@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.github.ajalt.timberkt.d
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.vanjavier.common.entities.Person
 import com.vanjavier.network.service.Resource
 import com.vanjavier.yellow.databinding.FragmentHomeBinding
@@ -41,14 +42,22 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         binding.run {
+
+            // Prepare the adapter and layout for the RecyclerView.
+            recyclerView.apply {
+                adapter = personsAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+            }
+
             // Observe the returned data to be applied to the adapter of the RecyclerView.
             viewModel.persons.observe(viewLifecycleOwner) {
-                d {"Persons ${it.data}"}
                 personsAdapter.submitList(it.data)
 
                 checkViewsState(this, it)
             }
         }
+
+        personsAdapter.onClickPerson = ::onClickPerson
 
         return binding.root
     }
@@ -61,7 +70,10 @@ class HomeFragment : Fragment() {
      * @param result The Resource state with the returned data.
      */
     private fun checkViewsState(binding: FragmentHomeBinding, result: Resource<List<Person>>) {
-
+        binding.run {
+            progressBar.isVisible = result is Resource.Loading
+            recyclerView.isVisible = result !is Resource.Loading && !result.data.isNullOrEmpty()
+        }
     }
 
     /**

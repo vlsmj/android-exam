@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.vanjavier.common.entities.Person
+import com.vanjavier.yellow.R
 import com.vanjavier.yellow.databinding.ItemPersonBinding
 
 /**
@@ -44,7 +45,14 @@ class PersonsAdapter :
 
         fun bind(person: Person) {
             binding.apply {
+                val imageResource: Int = when (person.gender) {
+                    "male" -> R.drawable.ic_male
+                    else -> R.drawable.ic_female
+                }
+                val fullName = "${person.lastName}, ${person.lastName}"
 
+                txtFullName.text = fullName
+                imgAvatar.setImageResource(imageResource)
             }
         }
     }

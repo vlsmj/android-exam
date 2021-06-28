@@ -26,9 +26,11 @@ class HomeRepository @Inject constructor(
         fetch = {
             apiService.getPersons(payload)
         }, saveFetchResult = { response ->
-            db.withTransaction {
-                personDao.deletePersons()
-                personDao.insertPersons(response)
+            if (response.isNotEmpty()) {
+                db.withTransaction {
+                    personDao.deletePersons()
+                    personDao.insertPersons(response)
+                }
             }
         }
     )
