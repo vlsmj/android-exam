@@ -5,11 +5,12 @@ import androidx.room.Room
 import com.google.gson.GsonBuilder
 import com.vanjavier.local.YellowDatabase
 import com.vanjavier.network.service.ApiService
+import com.vanjavier.util.Constants.DB_NAME
+import com.vanjavier.yellow.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -30,7 +31,7 @@ object ApplicationModule {
      */
     @Provides
     fun providesYellowDatabase(application: Application): YellowDatabase =
-        Room.databaseBuilder(application, YellowDatabase::class.java, "yellow_db")
+        Room.databaseBuilder(application, YellowDatabase::class.java, DB_NAME)
             .fallbackToDestructiveMigration()
             .build()
 
@@ -43,19 +44,12 @@ object ApplicationModule {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
-        val okHttpClient = OkHttpClient.Builder().addInterceptor(Interceptor { chain ->
-            chain.proceed(
-                chain.request().newBuilder()
-                    .addHeader(
-                        "Authorization", "Bearer tTCg5emLIqSIh5BzxKl6ag"
-                    )
-                    .build()
-            )
-        }).addInterceptor(httpLoggingInterceptor).build()
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor).build()
 
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl("https://app.fakejson.com/")
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .build()
             .create(ApiService::class.java)

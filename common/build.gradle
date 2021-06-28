@@ -23,6 +23,31 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "default"
+
+    productFlavors {
+        mock {
+            dimension "default"
+
+            buildConfigField("String", "TOKEN", getMockProperties().token)
+        }
+
+        prod {
+            dimension "default"
+
+            buildConfigField("String", "TOKEN", getProdProperties().token)
+        }
+    }
+
+    variantFilter { variant ->
+        def name_types = variant.flavors*.name
+        def name = name_types.join()
+
+        if (variant.buildType.name == "release" && name.contains("mock")) setIgnore(true)
+        if (variant.buildType.name == "debug" && name.contains("prod")) setIgnore(true)
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

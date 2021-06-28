@@ -1,5 +1,6 @@
 package com.vanjavier.network.service
 
+import com.vanjavier.common.entities.Person
 import kotlinx.coroutines.flow.*
 
 /**
@@ -19,7 +20,10 @@ inline fun <ResultType, RequestType> networkBoundResource(
 ) = flow {
     val data = query().first()
 
-    val flow = if (shouldFetch(data)) {
+    // Force prevent remote fetching if local persistence already has set of persons.
+    val isPreventRemoteFetch = data is List<*> && data.isNotEmpty()
+
+    val flow = if (shouldFetch(data) && !isPreventRemoteFetch) {
         emit(Resource.Loading(data))
         try {
             saveFetchResult(fetch())

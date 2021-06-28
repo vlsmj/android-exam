@@ -18,7 +18,6 @@ class HomeRepository @Inject constructor(
     private val db: YellowDatabase,
     private val apiService: ApiService
 ) {
-
     private val personDao = db.personDao()
 
     fun getPersons(payload: PersonsPayload) = networkBoundResource(

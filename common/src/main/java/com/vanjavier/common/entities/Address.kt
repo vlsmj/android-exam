@@ -6,7 +6,7 @@ data class Address(
     @SerializedName("building") val building: String? = "addressBuilding",
     @SerializedName("street") val street: String? = "addressFullStreet",
     @SerializedName("city") val city: String? = "addressCity",
-    @SerializedName("state") val gender: String? = "addressState",
-    @SerializedName("country") val mobile: String? = "addressCountry",
+    @SerializedName("state") val state: String? = "addressState",
+    @SerializedName("country") val country: String? = "addressCountry",
     @SerializedName("zip") val zip: String? = "addressZipCode"
 )

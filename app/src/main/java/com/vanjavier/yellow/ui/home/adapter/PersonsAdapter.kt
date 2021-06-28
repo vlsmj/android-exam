@@ -49,10 +49,14 @@ class PersonsAdapter :
                     "male" -> R.drawable.ic_male
                     else -> R.drawable.ic_female
                 }
-                val fullName = "${person.lastName}, ${person.lastName}"
+                val fullName = "${person.lastName}, ${person.firstName}"
 
                 txtFullName.text = fullName
                 imgAvatar.setImageResource(imageResource)
+
+                root.setOnClickListener {
+                    onClickPerson(person)
+                }
             }
         }
     }

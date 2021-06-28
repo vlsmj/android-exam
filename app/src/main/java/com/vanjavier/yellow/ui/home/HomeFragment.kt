@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vanjavier.common.entities.Person
 import com.vanjavier.network.service.Resource
+import com.vanjavier.util.extensions.setActionBarTitle
+import com.vanjavier.yellow.BuildConfig
 import com.vanjavier.yellow.databinding.FragmentHomeBinding
 import com.vanjavier.yellow.ui.home.adapter.PersonsAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,7 +44,7 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        binding.run {
+        binding.apply {
 
             // Prepare the adapter and layout for the RecyclerView.
             recyclerView.apply {
@@ -70,17 +73,26 @@ class HomeFragment : Fragment() {
      * @param result The Resource state with the returned data.
      */
     private fun checkViewsState(binding: FragmentHomeBinding, result: Resource<List<Person>>) {
-        binding.run {
+        binding.apply {
             progressBar.isVisible = result is Resource.Loading
             recyclerView.isVisible = result !is Resource.Loading && !result.data.isNullOrEmpty()
         }
     }
 
     /**
-     * Redirect to the Profile fragment that displays details of the person.
+     * Redirect to the Profile fragment that displays the details of the person selected.
      */
     private fun onClickPerson(person: Person) {
+        findNavController().navigate(
+            HomeFragmentDirections.actionNavigationHomeToNavigationProfile(
+                person
+            )
+        )
+    }
 
+    override fun onResume() {
+        super.onResume()
+        setActionBarTitle(BuildConfig.APP_ENVIRONMENT)
     }
 
     override fun onDestroyView() {
