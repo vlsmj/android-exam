@@ -15,7 +15,7 @@ data class Person(
     @SerializedName("email") val email: String? = "internetEmail",
     @SerializedName("gender") val gender: String? = "personGender",
     @SerializedName("mobile") val mobile: String? = "phoneMobile",
-    @SerializedName("dateDOB") val birthDate: String? = "dateDOB",
+    @SerializedName("dateDOB") val birthDay: String? = "dateDOB",
     @SerializedName("_repeat") val repeat: Int? = 10,
     @SerializedName("address") val address: Address? = Address(),
     @SerializedName("contact_person") val contactPerson: ContactPerson? = ContactPerson()

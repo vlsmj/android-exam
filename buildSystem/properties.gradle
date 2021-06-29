@@ -1,0 +1,15 @@
+def mockProperties = new Properties()
+def prodProperties = new Properties()
+
+file("$projectDir/config/env/mock.properties").withInputStream {
+    mockProperties.load(it)
+}
+
+file("$projectDir/config/env/prod.properties").withInputStream {
+    prodProperties.load(it)
+}
+
+ext {
+    getMockProperties = { -> mockProperties }
+    getProdProperties = { -> prodProperties }
+}

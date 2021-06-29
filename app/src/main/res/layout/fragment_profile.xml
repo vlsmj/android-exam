@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.profile.ProfileFragment">
+
+    <ImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        tools:src="@tools:sample/avatars" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <include layout="@layout/partial_profile_details_labels" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_first_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:textStyle="bold"
+                tools:text="@string/first_name" />
+
+            <TextView
+                android:id="@+id/txt_last_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:textStyle="bold"
+                tools:text="@string/last_name" />
+
+            <TextView
+                android:id="@+id/txt_birth_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:textStyle="bold"
+                tools:text="@string/birthday" />
+
+            <TextView
+                android:id="@+id/txt_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:textStyle="bold"
+                tools:text="@string/age" />
+
+            <TextView
+                android:id="@+id/txt_email_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textStyle="bold"
+                tools:text="@string/email_address" />
+
+            <TextView
+                android:id="@+id/txt_mobile_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:textStyle="bold"
+                tools:text="@string/mobile_number" />
+
+            <TextView
+                android:id="@+id/txt_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:lines="5"
+                android:textStyle="bold"
+                tools:text="@string/address" />
+
+            <TextView
+                android:id="@+id/txt_contact_person"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:textStyle="bold"
+                tools:text="@string/contact_person" />
+
+            <TextView
+                android:id="@+id/txt_contact_person_phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
+                android:textStyle="bold"
+                tools:text="@string/contact_person_s_phone_number" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
