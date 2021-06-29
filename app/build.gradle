@@ -1,11 +1,23 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
+
+    signingConfigs {
+        release {
+            storeFile file("../signature/YellowProductionKeystore.jks")
+            storePassword getProdProperties().storePass
+            keyAlias getProdProperties().alias
+            keyPassword getProdProperties().keyPass
+        }
+    }
 
     defaultConfig {
         applicationId "com.vanjavier.yellow"
@@ -19,10 +31,39 @@ android {
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "default"
+
+    productFlavors {
+        mock {
+            dimension "default"
+
+            buildConfigField("String", "BASE_URL", getMockProperties().baseUrl)
+            buildConfigField("String", "APP_ENVIRONMENT", getMockProperties().appEnvironment)
+        }
+
+        prod {
+            dimension "default"
+
+            buildConfigField("String", "BASE_URL", getProdProperties().baseUrl)
+            buildConfigField("String", "APP_ENVIRONMENT", getProdProperties().appEnvironment)
+        }
+    }
+
+    variantFilter { variant ->
+        def name_types = variant.flavors*.name
+        def name = name_types.join()
+
+        if (variant.buildType.name == "release" && name.contains("mock")) setIgnore(true)
+        if (variant.buildType.name == "debug" && name.contains("prod")) setIgnore(true)
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -36,6 +77,15 @@ android {
 }
 
 dependencies {
+    implementation project(':repository')
+    implementation project(':util')
+
+    // Implement Hilt library
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    // Implement Timber Extension library
+    implementation "com.github.ajalt:timberkt:$timberkt_version"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.5.0'
