@@ -3,6 +3,8 @@
 ## Goal of the exam ##
 To assess a developer's skills in terms of developing Android apps and decision-making on solving common development tasks.
 
+![yellow_sc](https://user-images.githubusercontent.com/11737795/187952702-3d670def-bfba-4afe-a488-36f07bb0d6c3.png)
+
 ## Tasks ##
 
 - Fork this repository
